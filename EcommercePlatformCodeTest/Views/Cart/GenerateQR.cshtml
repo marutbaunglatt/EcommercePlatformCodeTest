@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "QR Code";
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">သင်၏ CBPay Mobile Application မှ ဤ QR Code အား Scan ဖတ်ပါ။ </div>
+                <div class="card-body text-center">
+                    <img src="@ViewBag.QRCodeImage" alt="QR Code" class="img-fluid" />
+                    <p class="mt-3">ငွေးပေးချေမှု အောင်မြင်ပါက 'Continue' button လေးကိုနိုပ်ပေးပါ။</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a id="continueLink" class="btn btn-primary" href="@Url.Action("CheckTransaction_FromCBBank", "Cart", new { transactionRefNo = @ViewBag.TransactionRefNo, amount = @ViewBag.Amount })">Continue</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

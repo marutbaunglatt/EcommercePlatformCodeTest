@@ -1,0 +1,99 @@
+﻿@model List<CartItem>
+@{
+    int totalQuantity = 0;
+    decimal totalAmount = 0;
+}
+<div class="container">
+    <h1>Cart Items</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="align-middle">Image</th>
+                <th class="align-middle">Title</th>
+                <th class="align-middle">Price</th>
+                <th class="align-middle">Quantity</th>
+                <th class="align-middle">Reduce Quantity</th>
+                <th class="align-middle">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                totalQuantity += item.Quantity;
+                totalAmount += (item.Quantity * item.Product.Price);
+
+                <tr>
+                    <td class="align-middle"><img src="~/uploads/@item.Product.ImageData" class="img-thumbnail" alt="@item.Product.Title" style="max-width: 140px;" /></td>
+                    <td class="align-middle">@item.Product.Title</td>
+                    <td class="align-middle">@item.Product.Price MMK</td>
+                    <td class="align-middle">@item.Quantity</td>
+                    <td class="align-middle">
+                        <form action="@Url.Action("UpdateQuantity", "Cart", new { id = item.Id })" method="post" style="display: flex; justify-content:space-around;">
+                            <input type="number" name="quantity" min="1" max="@item.Quantity" class="form-control" style="width: 70px;" />
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Reduce</button>
+                        </form>
+                    </td>
+                    <td class="align-middle">
+                        <a href="@Url.Action("RemoveItem", "Cart", new { id = item.Id })" class="btn btn-outline-danger btn-sm">Remove</a>
+                    </td>
+                </tr>   
+            }
+            <tr>
+                <td colspan="2">Total Quantity: @totalQuantity</td>
+                <td>Total Amount: @totalAmount MMK</td>
+                @if (totalAmount > 0)
+                {
+                    <td class="align-middle">
+                        <a href="@Url.Action("GenerateQR", "Cart", new { amount = totalAmount })" class="btn btn-warning btn-sm">Pay Now</a>
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+    <div class="card-footer d-flex justify-content-end">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                @if (ViewBag.ShowButtonCount <= 5)
+                {
+                    for (int i = 1; i <= ViewBag.ShowButtonCount; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.StartIndex ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { startIndex = i, showCount = @ViewBag.ShowCount, searchString = @ViewBag.SearchString })">@i</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { startIndex = @ViewBag.StartIndex - 1, showCount = @ViewBag.ShowCount, searchString = @ViewBag.SearchString })"> &lt; </a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { startIndex = 1, showCount = @ViewBag.ShowCount, searchString = @ViewBag.SearchString })"> 1 </a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { startIndex = 2, showCount = @ViewBag.ShowCount, searchString = @ViewBag.SearchString })"> 2 </a>
+                    </li>
+
+                    <li class="page-item active">
+                        <a class="page-link" href="@Url.Action("Index", new { startIndex = @ViewBag.StartIndex, showCount = @ViewBag.ShowCount, searchString = @ViewBag.SearchString })"> ..@ViewBag.StartIndex.. </a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { startIndex = @ViewBag.ShowButtonCount - 1, showCount = @ViewBag.ShowCount, searchString = @ViewBag.SearchString })"> @(ViewBag.ShowButtonCount - 1) </a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { startIndex = @ViewBag.ShowButtonCount, showCount = @ViewBag.ShowCount, searchString = @ViewBag.SearchString })"> @ViewBag.ShowButtonCount </a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { startIndex = @ViewBag.StartIndex + 1 <= @ViewBag.ShowButtonCount? @ViewBag.StartIndex + 1 : @ViewBag.ShowButtonCount, showCount = @ViewBag.ShowCount, searchString = @ViewBag.SearchString })"> &gt; </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+
+</div>

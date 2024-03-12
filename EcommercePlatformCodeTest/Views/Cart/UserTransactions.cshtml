@@ -1,0 +1,38 @@
+﻿@model List<EcommercePlatformCodeTest.Models.UserTransaction>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container">
+    <h2>User Transactions</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Code</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Bank Transaction ID</th>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@Model[i].Code</td>
+                        <td>@Model[i].Msg</td>
+                        <td>@Model[i].TransStatus</td>
+                        <td>@Model[i].BankTransId</td>
+                        <td>@Model[i].TransAmount</td>
+                        <td>@Model[i].TransCurrency</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

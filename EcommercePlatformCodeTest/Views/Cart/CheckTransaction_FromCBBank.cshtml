@@ -1,0 +1,18 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Thank You";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">Thank You for Your Transaction</h1>
+            <p class="text-center">We appreciate your business. Your transaction was successful!</p>
+            <p class="text-center">Transaction Reference Number: @Model</p>
+            <div class="text-center">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
