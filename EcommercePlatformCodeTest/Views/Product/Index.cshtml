@@ -124,7 +124,8 @@
 
 <script>
     $(document).ready(function () {
-        $('.add-to-cart').click(function () {
+        // Add to cart button click event handler using event delegation
+        $(document).on('click', '.add-to-cart', function () {
             var productId = $(this).data('product-id');
             var quantity = $(this).closest('.card-footer').find('.quantity-input').val();
             $.ajax({
@@ -141,6 +142,16 @@
                     $('#addToCartModal').modal('show');
                 }
             });
+        });
+
+        // Reload page after closing the modal
+        $('#addToCartModal').on('hidden.bs.modal', function () {
+            location.reload();
+        });
+
+        // Close modal on button click
+        $('.closeModal').click(function () {
+            $('#addToCartModal').modal('hide');
         });
     });
 
@@ -166,7 +177,7 @@
                 data: { startIndex: @ViewBag.StartIndex, showCount: 9, searchString: searchQuery, categor: categoryId, partial: true }, // Corrected parameter format
                 success: function (data) {
                     $('#filteredProductContainer').html(data);
-                    $('#categoryFilter').val(categor);
+                    $('#categoryFilter').val(categoryId);
                 },
                 error: function (xhr, status, error) {
                     // Handle error
